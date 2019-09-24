@@ -1,0 +1,10 @@
+{% extends 'index.html' %}
+{% block content %}
+     <form action="{% url 'order_delete' order.id  %}" method="get">
+                <button class="btn btn-secondary">Delete</button>
+            </form>
+<form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Update">
+</form>
+{% endblock %}
