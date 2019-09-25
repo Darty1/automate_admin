@@ -13,33 +13,28 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, re_path
 from webapp import views
-
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.Show.home, name='home'),
-    path('admin_login/', views.LoginView.as_view(), name='admin_login'),
-    path('list/', views.Show.list, name='list'),
-    path('register/', views.Show.register, name='register'),
-    path('logout', views.logout, name='logout'),
-    path('list/user/<int:user_id>/', views.Show.user, name='user'),
-    path('list/user/new_car/<int:user_id>/', views.Show.new_car, name='new_car'),
-    path('new_car/', views.Show.new_car, name='new_car'),
-    path('car/', views.Show.car, name='car'),
+    re_path(r'^$', views.Show.home, name='home'),
+    re_path(r'admin_login/', views.LoginView.as_view(), name='admin_login'),
+    re_path(r'list/$', views.Show.list, name='list'),
+    re_path(r'register/', views.Show.register, name='register'),
+    re_path(r'logout', views.logout, name='logout'),
+    re_path(r'(\w+/)*new_car/(?P<user_id>[0-9]+)/$', views.Show.new_car, name='new_car'),
+    re_path(r'(\w+/)*user/(?P<user_id>[0-9]+)/$', views.Show.user, name='user'),
     re_path(r'(\w+/)*(?P<user_id>[0-9]+)/car/(?P<car_id>[0-9]+)/$', views.Show.car, name='car'),
-    path('list/user/<int:user_id>/car/<int:car_id>/car_delete/<int:pk>/', views.CarDelete.as_view(), name='car_delete'),
-    # path(' list/user/<int:user_id>/car/<int:car_id>/car_delete/', views.CarDelete.as_view(), name='car_delete'),
-    path('list/user/<int:user_id>/car_update/<int:pk>/', views.CarUpdate.as_view(), name='car_update'),
-    path('list/user_update/<int:pk>/', views.UserUpdate.as_view(), name='user_update'),
-    path('list/user_delete/<int:pk>/', views.UserDelete.as_view(), name='user_delete'),
-    path('list/user/<int:user_id>/car/<int:car_id>/new_order/', views.Show.new_order, name='new_order'),
-    path('list/user/new_car/<int:user_id>/car/<int:car_id>/new_order/', views.Show.new_order, name='new_order'),
-    path('list/user/<int:user_id>/car/<int:car_id>/order_update/<int:pk>/', views.OrderUpdate.as_view(), name='order_update'),
-    path('list/user/new_car/<int:user_id>/car/<int:car_id>/new_order/order_update/<int:pk>/', views.OrderUpdate.as_view(), name='order_update'),
-    path('list/user/new_car/<int:user_id>/car/<int:car_id>/order_update/<int:pk>/', views.OrderUpdate.as_view(), name='order_update'),
-    path('list/user/<int:user_id>/car/<int:car_id>/new_order/order_delete/<int:pk>/', views.OrderDelete.as_view(), name='order_delete'),
+    re_path(r'(\w+/)*(?P<user_id>[0-9]+)/car/(?P<car_id>[0-9]+)/car_delete/(?P<pk>[0-9]+)/$', views.CarDelete.as_view(), name='car_delete'),
+    re_path(r'(\w+/)*(?P<user_id>[0-9]+)/car_update/(?P<pk>[0-9]+)/$', views.CarUpdate.as_view(), name='car_update'),
+    re_path(r'(\w+/)*user_update/(?P<pk>[0-9]+)/$', views.UserUpdate.as_view(), name='user_update'),
+    re_path(r'(\w+/)*user_delete/(?P<pk>[0-9]+)/$', views.UserDelete.as_view(), name='user_delete'),
+    re_path(r'(\w+/)*(?P<user_id>[0-9]+)/car/(?P<car_id>[0-9]+)/new_order/$', views.Show.new_order, name='new_order'),
+    re_path(r'(\w+/)*(?P<user_id>[0-9]+)/car/(?P<car_id>[0-9]+)/(\w+/)*order_update/(?P<pk>[0-9]+)/$', views.OrderUpdate.as_view(), name='order_update'),
+    re_path(r'(\w+/)*user/(?P<user_id>[0-9]+)/car/(?P<car_id>[0-9]+)/(\w+/)*order_delete/(?P<pk>[0-9]+)/$', views.OrderDelete.as_view(), name='order_delete'),
 ]
+
 
 

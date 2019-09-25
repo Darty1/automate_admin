@@ -3,17 +3,10 @@
   <h1>New Order</h1>
     <div  style="width: 300px">
  <form action={% url 'new_order' car_id=car.id  user_id=car.host_id %} method="post">
-                <div class="form-group">
-                    <label for="input-date">Date</label>
-                    {{ form.date }}
-                </div>
-                <div class="form-group">
-                    <label for="input-amount">Amount</label>
-                    {{ form.amount }}
-                </div>
-{#     <div class="form-group">#}
-{#         {{ form.as_p }}#}
-{#     </div>#}
+
+     <div class="form-group">
+         {{ form.as_p }}
+     </div>
      <button type="submit" class="btn btn-primary">Continue</button>
                 {% csrf_token %}
  </form>

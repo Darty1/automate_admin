@@ -95,10 +95,8 @@ class Show(View):
         if request.method == 'POST':
             date = request.POST.get('date')
             amount = request.POST.get('amount')
-            status = request.POST.get('status')
-
             car = Car.objects.get(id=car_id)
-            order = Order(date=date, amount=amount, status=status, car_id=car_id)
+            order = Order(date=date, amount=amount, car_id=car_id)
             order.save()
             orders = Order.objects.filter(car_id=car_id)
             return render(request, 'car.html', {'car': car, 'orders': orders, 'form': UserForm(), 'error': True})
