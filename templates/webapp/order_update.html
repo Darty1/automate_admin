@@ -1,6 +1,7 @@
 {% extends 'index.html' %}
 {% block content %}
-     <form action="{% url 'order_delete' order.id  %}" method="get">
+    <h1>Order update</h1>
+ <form action="{% url 'order_delete' pk=order.id car_id=order.car_id user_id=order.car_id %}" method="get">
                 <button class="btn btn-secondary">Delete</button>
             </form>
 <form method="post">{% csrf_token %}

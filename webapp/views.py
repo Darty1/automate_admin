@@ -33,7 +33,7 @@ def index(request):
 def logout(request: HttpRequest):
     from django.contrib.auth import logout
     logout(request)
-    return redirect(reverse('index'))
+    return redirect(reverse('home'))
 
 
 class Show(View):
@@ -66,13 +66,14 @@ class Show(View):
                         email=email)
             user.save()
             cars = Car.objects.filter(host_id=user.id)
+
             return render(request, 'user.html', {'user': user, 'cars': cars, 'form': UserForm(), 'error': True})
         else:
             form = UserForm()
         return render(request, 'register.html', {'form': form, 'error': True})
 
     def home(request):
-        from .forms import UserForm
+        from .forms import UserForm, OrderForm
         form = UserForm()
         if request.method == 'POST':
             form = UserForm(request.POST)
@@ -86,7 +87,7 @@ class Show(View):
                 return render(request, 'user.html', {'user': user, 'form': UserForm(), 'error': True})
         else:
             form = UserForm()
-        return render(request, 'home.html', {'form': UserForm(), 'error': True})
+        return render(request, 'home.html', {'form': form, 'error': True})
 
     def new_order(request, car_id, user_id):
         from .forms import OrderForm, UserForm
@@ -96,9 +97,9 @@ class Show(View):
             amount = request.POST.get('amount')
             status = request.POST.get('status')
 
+            car = Car.objects.get(id=car_id)
             order = Order(date=date, amount=amount, status=status, car_id=car_id)
             order.save()
-            car = Car.objects.filter(id=car_id)
             orders = Order.objects.filter(car_id=car_id)
             return render(request, 'car.html', {'car': car, 'orders': orders, 'form': UserForm(), 'error': True})
         else:
@@ -124,7 +125,6 @@ class Show(View):
                               {'form': form, 'user': User.objects.get(id=user_id), 'error': True})
             else:
                 car.save()
-            print('i save')
             cars = Car.objects.filter(host_id=host_id)
             return render(request, 'user.html', {'user': User.objects.get(id=user_id), 'cars': cars})
         else:
@@ -151,10 +151,10 @@ class LoginView(View):
         password = request.POST['password']
         admin: Admin = authenticate(request, username=username, password=password)
         if not admin:
-            return render(request, 'index.html', {'form': AdminForm(), 'error': True})
+            return render(request, 'home.html', {'form': UserForm(), 'error': True})
         admin.auth = 1
         login(request, admin)
-        return redirect(reverse('index'))
+        return redirect(reverse('home'))
 
 
 
@@ -196,3 +196,4 @@ class OrderUpdate(UpdateView):
 class OrderDelete(DeleteView):
     model = Order
     success_url = reverse_lazy('list')
+

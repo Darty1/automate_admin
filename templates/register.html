@@ -1,29 +1,30 @@
 {% extends 'index.html' %}
 {% block content %}
- <form action="{% url 'register' %}" method="get">
-                <div class="form-group">
-                    <label for="input-username">First Name</label>
-                    {{ form.first_name }}
-                </div>
-                <div class="form-group">
-                    <label for="input-username">Last Name</label>
-                    {{ form.last_name }}
-                </div>
-                <div class="form-group">
-                    <label for="input-username">DOB</label>
-                    {{ form.date_of_birth }}
-                </div>
-                <div class="form-group">
-                    <label for="input-username">Phone Number</label>
-                    {{ form.phone_number }}
-                </div>
-                <div class="form-group">
+    <h1>Register</h1>
+ <form action="{% url 'register' %}" method="post">
+     <div class="form-group">
+         <label for="input-username">First Name</label>
+         {{ form.first_name }}
+     </div>
+     <div class="form-group">
+         <label for="input-username">Last Name</label>
+         {{ form.last_name }}
+     </div>
+     <div class="form-group">
+         <label for="input-username">Email</label>
+         {{ form.email }}
+     </div>
+     <div class="form-group">
+         <label for="input-username">DOB</label>
+         {{ form.date_of_birth }}
+     </div>
+     <div class="form-group">
+         {{ form.phone_number }}
+         <label for="input-username">Phone Number</label>
+     </div>
+     <div class="form-group">
                     <label for="input-username">Address</label>
                     {{ form.address }}
-                </div>
-                <div class="form-group">
-                    <label for="input-username">Email</label>
-                    {{ form.email }}
                 </div>
                 <button type="submit" class="btn btn-primary">Continue</button>
                 {% csrf_token %}

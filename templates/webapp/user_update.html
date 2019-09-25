@@ -1,5 +1,9 @@
 {% extends 'index.html' %}
 {% block content %}
+    <h1>User update</h1>
+              <form action="{% url 'user_delete' pk=user.id  %}" method="get">
+                <button class="btn btn-secondary">Delete</button>
+            </form>
 <form method="post">{% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Update">

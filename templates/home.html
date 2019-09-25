@@ -1,4 +1,25 @@
 {% extends 'index.html' %}
-{% block home %}
-
+{% block content %}
+<div class="container">
+         {% if user.is_authenticated %}
+             <h1> Search </h1>
+            <div  style="width: 300px">
+                <form action="{% url 'home' %}" method="post">
+                    <div>
+                            <div class="form-group" >
+                                <label for="input-first-name">First Name</label>
+                                {{ form.first_name }}
+                            </div>
+                            <div class="form-group">
+                                <label for="input-last-name">Last Name</label>
+                                {{ form.last_name }}
+                            </div>
+                        </div>
+                    <button type="submit" class="btn btn-primary">Continue</button>
+                            {% csrf_token %}
+                </form>
+             </div>
+         {% else %}
+           <h1> Hi, please, <a href="admin_login">login</a></h1>
+         {% endif %}
 {% endblock %}

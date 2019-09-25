@@ -1,14 +1,16 @@
 {% extends 'index.html' %}
 {% block content %}
 <table class="table table-striped">
-<div class="btn-group" role="group" aria-label="Basic example">
-    <a href="new_order"><button class="btn btn-secondary">Add</button></a>
-
-{# <form action="{% url 'car_delete' user_id=car.host_id pk=car.id car_id=car.id%}" method="get">#}
-{#                <button class="btn btn-secondary">Delete</button>#}
-{#            </form>#}
-<p>{{ car.id }}</p>
-    <h1>{{ car.model }} {{ car.make }}</h1>
+    <h1>{{ car.model }} {{ car.make }} {{ car.year }}</h1>
+    <div class="btn-group" role="group" aria-label="Basic example">
+    <a href="new_order"><button class="btn btn-secondary">New Order</button></a>
+     {% if orders|length %}
+         <h3>removal is prohibited. there are unfinished orders</h3>
+     {% else %}
+             <form action="{% url 'car_delete' user_id=car.host_id pk=car.id car_id=car.id%}" method="get">
+                <button class="btn btn-secondary">Delete Car</button>
+             </form>
+     {% endif %}
 </div>
   <thead>
   <tr>
@@ -30,10 +32,10 @@
             <input type="checkbox" id="{{ order.id }}"/>
         </td>
       <td>{{ order.date }}</td>
-      <td>{{ order.amount }}</td>
+      <td>{{ order.amount }} $</td>
         {% if order.status == '1' %}
             <td> Complieted</td>
-        {% elif order.status == '2' %}
+        {% elif order.status == '2' or order.status == None %}
             <td> In Progress </td>
         {% elif order.status == '3' %}
             <td> Cancelled </td>
